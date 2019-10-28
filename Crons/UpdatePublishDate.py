@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
-sys.path.append(r'E:\Documents\PythonProjects\holaverse\CrawlerSchedulerFBV')
+sys.path.append(r'/home/BingquLee/Project/CrawlerSchedulerFBV')
 from global_config import conn
 from global_utils import today
 

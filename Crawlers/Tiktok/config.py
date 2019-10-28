@@ -2,6 +2,6 @@
 
 ACCOUNT_TO_SID = {
     'BingquLee': '103b465c87289529651457a0ae58a7e1',
-    'bingquli': '3d909a93c9b9c887f545628fc4c76665',
-    '13269704912': 'eb655110c6c0fdf5aa33a5e86797ca9b',
+    'bingquli': 'e9ab67fd93d9f3d4cec458d21c432cbe',
+    'MagicReverse': '0ee9b62076c1b9f097a1cb53497d6f38'
 }

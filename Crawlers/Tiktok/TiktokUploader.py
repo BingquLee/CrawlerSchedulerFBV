@@ -5,12 +5,12 @@ import zlib
 
 import requests
 
+from Crawlers.Tiktok.Utils import get_tag
 from Crawlers.Tiktok.config import ACCOUNT_TO_SID
 
 
 def video_uploader(account, file, text=''):
     url1 = "https://api21-h2.tiktokv.com/aweme/v1/upload/authkey/?manifest_version_code=735&_rticket=1571024543641&app_language=en&current_region=CN&app_type=normal&iid=6747216327653476097&channel=googleplay&device_type=J9110&language=zh&locale=en&account_region=US&resolution=1096*2434&openudid=9ed5ff1a4b62cbc2&update_version_code=7350&sys_region=CN&os_api=28&uoo=0&is_my_cn=1&timezone_name=Asia%2FShanghai&dpi=420&residence=US&ac=wifi&device_id=6747214369112163842&pass-route=1&os_version=9&timezone_offset=28800&version_code=735&app_name=trill&ab_version=7.3.5&version_name=7.3.5&device_brand=Sony&ssmix=a&pass-region=1&device_platform=android&build_number=7.3.5&region=CN&aid=1180&ts={}".format(str(int(time.time())))
-    print('url1', url1)
     session = requests.Session()
     session.cookies.set("sessionid", ACCOUNT_TO_SID[account])
     session.headers = {
@@ -20,7 +20,6 @@ def video_uploader(account, file, text=''):
         "Host": "api21-h2.tiktokv.com"
     }
     resp = session.post(url=url1).text
-    print('resp1', resp)
     data1 = json.loads(resp)
 
     authorization = data1['video_config']['authorization']
@@ -30,7 +29,6 @@ def video_uploader(account, file, text=''):
     file_host_name = data1['video_config']['fileHostName']
 
     url2 = "http://{}/video/openapi/v1/?action=GetVideoUploadParams&use_edge_node=1&use_quic=0&use_multi_task=0&resumable=0&region=US".format(video_host_name)
-    print('url2', url2)
     session.headers = {
         'X-TT-Access': x_tt_access,
         'Authorization': authorization,
@@ -38,7 +36,6 @@ def video_uploader(account, file, text=''):
     }
 
     resp2 = session.post(url=url2).text
-    print('resp2', resp2)
     data2 = json.loads(resp2)
 
     vid = data2['data']['edge_nodes'][0]['vid']
@@ -67,17 +64,12 @@ def video_uploader(account, file, text=''):
         'Content-CRC32': "%X" % (prev & 0xFFFFFFFF),
         'Authorization': tos_sign
     }
-    print(session.headers['Content-CRC32'])
     url4 = "http://{}/{}?uploadID={}&partNumber={}".format(file_host_name, oid, uploadID, part_number)
-    print('url4', url4)
     resp4 = session.post(url=url4, data=content).text
-    print('resp4', resp4)
 
     url5 = "http://{}/{}?uploadID={}".format(file_host_name, oid, uploadID)
-    print('url5', url5)
     crc32 = session.headers['Content-CRC32']
     del session.headers['Content-CRC32']
-    print(session.headers)
     resp5 = session.post(url=url5, data='0:{}'.format(crc32)).text
     print('resp5', resp5)
 
@@ -128,6 +120,9 @@ def video_uploader(account, file, text=''):
         "commerce_ad_link": "0",
         "is_star_atlas": "0"
     }
+    text_extra = get_tag(post_data2['text'])
+    if text_extra:
+        post_data2['text_extra'] = json.dumps(text_extra, ensure_ascii=False)
     session.headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
         'User-Agent': 'com.ss.android.ugc.trill/735 (Linux; U; Android 9; zh_CN_#Hans; J9110; Build/55.0.A.6.56; Cronet/58.0.2991.0)'

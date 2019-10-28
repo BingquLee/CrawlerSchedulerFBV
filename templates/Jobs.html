@@ -24,9 +24,9 @@
     <div class="form-group" aria-expanded="false">
         <label for="exampleFormControlSelect1">Account Select</label>
         <select class="form-control" id="exampleFormControlSelect1" style="width: 30%" name="account">
-            <option id="Account" value="BingquLeeFacebook">BingquLeeFacebook</option>
-            <option id="Account" value="BingquLeeIns">BingquLeeIns</option>
-            <option id="Account" value="BingquLeeTwitter">BingquLeeTwitter</option>
+            {% for user in user_list %}
+                <option id="Account" value="{{ user.user_id }}">{{ user.user_id }}</option>
+            {% endfor %}
         </select>
     </div>
 
@@ -55,32 +55,6 @@
 
     <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Submit</button>
 
-
-{#    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">#}
-{#  Launch demo modal#}
-{#</button>#}
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 </form>
 
 
@@ -104,9 +78,11 @@
       <td>{{ item.account }}</td>
       <td>{{ item.publish_freq }}</td>
       <td>{{ item.publish_time }}</td>
-      <td>{{ item.text }}</td>
+      <td style="overflow: hidden">{{ item.text }}</td>
       <td>{{ item.file_amount }}</td>
       <td>{{ item.status }}</td>
+
+      <td><button type="button" class="btn btn-primary" onclick="location.href='/api/jobs/delete_job?job_id={{ item.id }}'">delete</button></td>
   </tr>
   {% endfor %}
   </tbody>
