@@ -1,5 +1,5 @@
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render
-import time
 
 
 # Create your views here.
@@ -7,11 +7,7 @@ from django.views.decorators.http import require_http_methods
 
 from Apps.Jobs.utils import set_jobs_util, get_jobs_util, delete_job_util
 from Apps.Users.utils import get_users_util
-<<<<<<< HEAD
 from global_utils import today
-=======
-from global_utils import today, date_min2ts, ts2date_min
->>>>>>> c7c3fae9169c3514cca359cf767c0ddb4fe4061d
 
 
 @require_http_methods(['GET'])
@@ -29,25 +25,7 @@ def set_jobs(request):
     channel = request.POST.get("channel")
     account = request.POST.get("account")
     publish_freq = request.POST.get("publish_freq")
-<<<<<<< HEAD
     publish_time = request.POST.get("publish_time") if publish_freq == 'Once' else '{} {}'.format(today(), request.POST.get("publish_time").split(' ')[-1])
-=======
-    publish_time = request.POST.get("publish_time")
-    if publish_freq == 'Once':
-        publish_time = publish_time
-    else:
-        if '-' not in publish_time:
-            publish_time = today() + ' ' + publish_time
-        else:
-            publish_time = publish_time
-        publish_ts = date_min2ts(publish_time)
-        if publish_ts <= int(time.time()):
-            publish_ts += 24 * 60 *60
-        else:
-            publish_ts = publish_ts
-        publish_time = ts2date_min(publish_ts)
-
->>>>>>> c7c3fae9169c3514cca359cf767c0ddb4fe4061d
     text = request.POST.get("text", "")
     file_amount = request.POST.get("file_amount", 1)
     status = 0
@@ -59,8 +37,4 @@ def set_jobs(request):
 def delete_job(request):
     job_id = request.GET.get("job_id")
     status_code = 201 if delete_job_util(job_id) else 400
-<<<<<<< HEAD
     return render(request, 'OK.html', status=status_code)
-=======
-    return render(request, 'OK.html', status=status_code)
->>>>>>> c7c3fae9169c3514cca359cf767c0ddb4fe4061d

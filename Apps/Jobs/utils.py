@@ -22,10 +22,7 @@ def get_jobs_util(page_num, page_size):
     sql = "Select * From jobs ORDER By publish_time DESC, status ASC LIMIT {}, {}".format((page_num - 1) * page_size, page_size)
     data = cursor.execute(sql).fetchall()
     item_list = [{"channel": i[1], "account": i[2], "publish_time": i[3], "publish_freq": i[4], "text": i[5], "file_amount": i[6], "status": i[7], "id": i[0]} for i in data]
-<<<<<<< HEAD
     cursor.close()
-=======
->>>>>>> c7c3fae9169c3514cca359cf767c0ddb4fe4061d
     return item_list
 
 

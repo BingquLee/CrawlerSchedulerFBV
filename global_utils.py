@@ -11,10 +11,6 @@ def ts2date_min(ts):
     return time.strftime('%Y-%m-%d %H:%M', time.localtime(ts))
 
 
-def date_min2ts(date):
-    return int(time.mktime(time.strptime(date, '%Y-%m-%d %H:%M')))
-
-
 def today():
     return time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
