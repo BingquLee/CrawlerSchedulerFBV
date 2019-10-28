@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
 import sys
-sys.path.append(r'E:\Documents\PythonProjects\holaverse\CrawlerSchedulerFBV')
+sys.path.append(r'/home/BingquLee/Project/CrawlerSchedulerFBV')
 
 from Crawlers.Tiktok.TiktokUploader import video_uploader
 from global_config import conn
@@ -19,22 +19,45 @@ def get_jobs():
             cursor.execute(sql_update_job)
             conn.commit()
             file_error_count = 0
+<<<<<<< HEAD
             file_sql = "SELECT * FROM files WHERE status=0 AND account='{}' LIMIT {}".format(job[2], job[6])
             file_list = cursor.execute(file_sql).fetchall()
             for file in file_list:
 
                 try:
                     video_uploader(job[2], r'E:\Documents\PythonProjects\CrawlerScheduler\Videos\{}\To_{}\{}.mp4'.format(file[1], file[2], file[0]), job[5])
+=======
+
+            file_sql = "SELECT * FROM files WHERE status=0 AND account='{}' LIMIT {}".format(job[2], job[6])
+            file_list = cursor.execute(file_sql).fetchall()
+            for file in file_list:
+                # print('file_name', r'Videos/{}/To_{}/{}.mp4'.format(file[1], file[2], file[0]))
+                try:
+                    video_uploader(job[2], r'Videos/{}/To_{}/{}.mp4'.format(file[1], file[2], file[0]), job[5])
+>>>>>>> c7c3fae9169c3514cca359cf767c0ddb4fe4061d
                     file_update_sql = "UPDATE files SET status=1 WHERE id='{}';".format(file[0])
                     cursor.execute(file_update_sql)
                     conn.commit()
                 except Exception as e:
+<<<<<<< HEAD
                     print('file_name', r'E:\Documents\PythonProjects\CrawlerScheduler\Videos\{}\To_{}\{}.mp4'.format(file[1], file[2], file[0]))
                     file_update_sql = "UPDATE files SET status=-1 WHERE id='{}';".format(file[0])
                     cursor.execute(file_update_sql)
                     conn.commit()
                     file_error_count -= 1
                     continue
+=======
+                    file_update_sql = "UPDATE files SET status=-1 WHERE id='{}';".format(file[0])
+                    cursor.execute(file_update_sql)
+                    conn.commit()
+                    # raise e
+                    file_error_count -= 1
+                    print('file_name', r'Videos/{}/To_{}/{}.mp4'.format(file[1], file[2], file[0]))
+                    continue
+            sql_update_job = "UPDATE jobs SET status=1 WHERE id='{}'".format(job[0])
+            cursor.execute(sql_update_job)
+            conn.commit()
+>>>>>>> c7c3fae9169c3514cca359cf767c0ddb4fe4061d
             if file_error_count != 0:
                 sql_update_job = "UPDATE jobs SET status={} WHERE id='{}'".format(file_error_count, job[0])
                 cursor.execute(sql_update_job)
