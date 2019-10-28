@@ -18,7 +18,6 @@ def add_users(request):
         return render(request, 'OK.html', status=status_code)
 
 
-
 @require_http_methods(['GET'])
 def delete_user(request):
     user_id = request.GET.get('user_id')

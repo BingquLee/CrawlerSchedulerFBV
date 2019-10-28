@@ -37,9 +37,6 @@ def get_jobs():
                     file_error_count -= 1
                     print('file_name', r'Videos/{}/To_{}/{}.mp4'.format(file[1], file[2], file[0]))
                     continue
-            sql_update_job = "UPDATE jobs SET status=1 WHERE id='{}'".format(job[0])
-            cursor.execute(sql_update_job)
-            conn.commit()
             if file_error_count != 0:
                 sql_update_job = "UPDATE jobs SET status={} WHERE id='{}'".format(file_error_count, job[0])
                 cursor.execute(sql_update_job)
