@@ -24,9 +24,9 @@
     <div class="form-group" aria-expanded="false">
         <label for="exampleFormControlSelect1">Account Select</label>
         <select class="form-control" id="exampleFormControlSelect1" style="width: 30%" name="account">
-            <option id="Account" value="BingquLeeFacebook">BingquLeeFacebook</option>
-            <option id="Account" value="BingquLeeIns">BingquLeeIns</option>
-            <option id="Account" value="BingquLeeTwitter">BingquLeeTwitter</option>
+            {% for user in user_list %}
+                <option id="Account" value="{{ user.user_id }}">{{ user.user_id }}</option>
+            {% endfor %}
         </select>
     </div>
 
@@ -104,9 +104,11 @@
       <td>{{ item.account }}</td>
       <td>{{ item.publish_freq }}</td>
       <td>{{ item.publish_time }}</td>
-      <td>{{ item.text }}</td>
+      <td style="overflow: hidden">{{ item.text }}</td>
       <td>{{ item.file_amount }}</td>
       <td>{{ item.status }}</td>
+
+      <td><button type="button" class="btn btn-primary" onclick="location.href='/api/jobs/delete_job?job_id={{ item.id }}'">delete</button></td>
   </tr>
   {% endfor %}
   </tbody>

@@ -5,6 +5,7 @@ import zlib
 
 import requests
 
+from Crawlers.Tiktok.Utils import get_tag
 from Crawlers.Tiktok.config import ACCOUNT_TO_SID
 
 
@@ -113,8 +114,8 @@ def video_uploader(account, file, text=''):
         "use_camera_type": "1",
         "h264_high_profile": "1",
         "camera_compat_level": "1",
-        "music_begin_time": "0",
-        "music_end_time": "9932",
+        # "music_begin_time": "0",
+        # "music_end_time": "9932",
         "info_sticker": "",
         "cover_tsp": "0.0",
         "text": text,
@@ -128,6 +129,9 @@ def video_uploader(account, file, text=''):
         "commerce_ad_link": "0",
         "is_star_atlas": "0"
     }
+    text_extra = get_tag(post_data2['text'])
+    if text_extra:
+        post_data2['text_extra'] = json.dumps(text_extra, ensure_ascii=False)
     session.headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
         'User-Agent': 'com.ss.android.ugc.trill/735 (Linux; U; Android 9; zh_CN_#Hans; J9110; Build/55.0.A.6.56; Cronet/58.0.2991.0)'
