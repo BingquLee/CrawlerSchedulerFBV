@@ -38,3 +38,12 @@ class Files(models.Model):
 
     class Meta:
         db_table = 'files'
+
+
+class Account(models.Model):
+    account_id = models.CharField(max_length=128, primary_key=True)
+    session_id = models.CharField(max_length=128, blank=False)
+    channel = models.CharField(max_length=128, blank=False)
+
+    class Meta:
+        db_table = 'accounts'

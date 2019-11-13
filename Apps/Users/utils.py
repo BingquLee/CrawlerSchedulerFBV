@@ -14,17 +14,8 @@ def add_users_util(user_id, session_id):
 
 def delete_user_util(user_id):
     cursor = conn.cursor()
-    sql = "DELETE FROM users WHERE uid='{}'".format(user_id)
+    sql = "DELETE FROM users WHERE uid={}".format(user_id)
     cursor.execute(sql)
     conn.commit()
     cursor.close()
     return True
-
-
-def get_users_util():
-    cursor = conn.cursor()
-    sql = "Select * From users ORDER By uid ASC"
-    data = cursor.execute(sql).fetchall()
-    users_list = [{"user_id": i[0], "session_id": i[1]} for i in data]
-    cursor.close()
-    return users_list

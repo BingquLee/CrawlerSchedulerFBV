@@ -17,11 +17,14 @@ def set_jobs_util(channel, account, publish_time, publish_freq, text, file_amoun
     return True
 
 
-def get_jobs_util(page_num, page_size):
+def get_jobs_util(channel):
     cursor = conn.cursor()
-    sql = "Select * From jobs ORDER By publish_time DESC, status ASC LIMIT {}, {}".format((page_num - 1) * page_size, page_size)
-    data = cursor.execute(sql).fetchall()
+    sql = "Select * From jobs WHERE channel = '{}' ORDER By publish_time ASC, status ASC".format(channel)
+    cursor.execute(sql)
+    data = cursor.fetchall()
+
     item_list = [{"channel": i[1], "account": i[2], "publish_time": i[3], "publish_freq": i[4], "text": i[5], "file_amount": i[6], "status": i[7], "id": i[0]} for i in data]
+    cursor.close()
     return item_list
 
 
@@ -32,3 +35,14 @@ def delete_job_util(job_id):
     conn.commit()
     cursor.close()
     return True
+
+
+def get_accounts_util(channel):
+    cursor = conn.cursor()
+    sql = "SELECT account_id, session_id FROM accounts WHERE channel='{}' ORDER By account_id ASC".format(channel)
+    cursor.execute(sql)
+    data = cursor.fetchall()
+    print(data)
+    users_list = [{"user_id": i[0], "session_id": i[1]} for i in data]
+    cursor.close()
+    return users_list

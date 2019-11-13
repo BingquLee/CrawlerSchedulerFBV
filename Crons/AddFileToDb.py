@@ -12,8 +12,8 @@ def add_file_to_db():
 
     video_list = read_files(r'Videos')
     file_video_name_set = set(video_list)
-    print(cursor.execute(sql).fetchall())
-    db_video_name_set = set(["Videos/{}/To_{}/{}.mp4".format(i[1], i[2], i[0]) for i in cursor.execute(sql).fetchall()])
+    cursor.execute(sql)
+    db_video_name_set = set(["Videos/{}/To_{}/{}.mp4".format(i[1], i[2], i[0]) for i in cursor.fetchall()])
     sub_set = file_video_name_set - db_video_name_set
     if sub_set:
 

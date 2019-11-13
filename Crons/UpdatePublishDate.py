@@ -7,8 +7,9 @@ from global_utils import today
 
 def update_publish_date():
     cursor = conn.cursor()
-    sql = "SELECT * FROM jobs WHERE publish_freq=='Everyday' ORDER BY publish_time ASC"
-    update_data = cursor.execute(sql).fetchall()
+    sql = "SELECT * FROM jobs WHERE publish_freq='Everyday' ORDER BY publish_time ASC"
+    cursor.execute(sql)
+    update_data = cursor.fetchall()
     print(update_data)
     if update_data:
         update_sql = """
@@ -36,3 +37,4 @@ def update_publish_date():
 
 if __name__ == '__main__':
     update_publish_date()
+
