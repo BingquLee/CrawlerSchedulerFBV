@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 import sys
+
+from pymysql.cursors import DictCursor
+
 sys.path.append(r'/home/BingquLee/Project/CrawlerSchedulerFBV')
 
 from global_config import conn
@@ -7,13 +10,13 @@ from global_utils import read_files
 
 
 def add_file_to_db():
-    cursor = conn.cursor()
+    cursor = conn.cursor(DictCursor)
     sql = "SELECT * FROM files"
 
     video_list = read_files(r'Videos')
     file_video_name_set = set(video_list)
     cursor.execute(sql)
-    db_video_name_set = set(["Videos/{}/To_{}/{}.mp4".format(i[1], i[2], i[0]) for i in cursor.fetchall()])
+    db_video_name_set = set(["Videos/{}/To_{}/{}.mp4".format(i["channel"], i["account"], i["id"]) for i in cursor.fetchall()])
     sub_set = file_video_name_set - db_video_name_set
     if sub_set:
 
