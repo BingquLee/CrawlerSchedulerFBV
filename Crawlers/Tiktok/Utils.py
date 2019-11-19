@@ -6,6 +6,7 @@ sys.path.append('/home/BingquLee/Project/CrawlerSchedulerFBV/')
 
 from global_config import conn
 
+
 def get_tag(text):
     text = text + ' '
     tag_list = []
@@ -32,10 +33,8 @@ def get_sessionid_by_account(account, channel):
     sql = "SELECT session_id FROM accounts WHERE account_id='{}' AND channel='{}'".format(account, channel)
     cursor.execute(sql)
     res = cursor.fetchone()
-    print(res)
     session_id = res["session_id"] if res else ''
     return session_id
-
 
 
 if __name__ == "__main__":
