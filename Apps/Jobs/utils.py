@@ -44,7 +44,6 @@ def get_accounts_util(channel):
     sql = "SELECT account_id, session_id FROM accounts WHERE channel='{}' ORDER By account_id ASC".format(channel)
     cursor.execute(sql)
     data = cursor.fetchall()
-    print(data)
     users_list = [{"user_id": i["account_id"], "session_id": i["session_id"]} for i in data]
     cursor.close()
     return users_list
