@@ -53,7 +53,6 @@ def set_jobs(request):
 def get_jobs(request):
     channel = request.GET.get("channel", "Tiktok")
     item_list = get_jobs_util(channel)
-    print(item_list)
     return JsonResponse(item_list, safe=False)
 
 
