@@ -1,5 +1,7 @@
 import sys
 
+from pymysql.cursors import DictCursor
+
 sys.path.append('/home/BingquLee/Project/CrawlerSchedulerFBV/')
 
 from global_config import conn
@@ -26,15 +28,16 @@ def get_tag(text):
 
 def get_sessionid_by_account(account, channel):
 
-    cursor = conn.cursor()
+    cursor = conn.cursor(DictCursor)
     sql = "SELECT session_id FROM accounts WHERE account_id='{}' AND channel='{}'".format(account, channel)
     cursor.execute(sql)
     res = cursor.fetchone()
-    session_id = res[0] if res else ''
+    print(res)
+    session_id = res["session_id"] if res else ''
     return session_id
 
 
 
 if __name__ == "__main__":
-    session_id = get_sessionid_by_account("Wig", "Tiktok")
+    session_id = get_sessionid_by_account("philring", "Tiktok")
     print(session_id)
