@@ -26,6 +26,7 @@ class Jobs(models.Model):
 
 class Files(models.Model):
     id = models.CharField(max_length=128, primary_key=True)
+    name = models.CharField(max_length=128, blank=False)
     channel = models.CharField(max_length=32, blank=False)
     account = models.CharField(max_length=32, blank=False)
     status = models.BooleanField(blank=False)

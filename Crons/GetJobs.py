@@ -6,7 +6,8 @@ from pymysql.cursors import DictCursor
 
 sys.path.append(r'/home/BingquLee/Project/CrawlerSchedulerFBV')
 
-from Crawlers.Tiktok.TiktokUploader import video_uploader
+from Crawlers.Tiktok.TiktokUploader import tiktok_uploader
+from Crawlers.YouTube.upload_video import youtube_uploader
 from global_config import conn
 from global_utils import ts2date_min
 
@@ -28,15 +29,33 @@ def get_jobs():
     conn.commit()
     for job in job_list:
         print(job)
+        channel = job['channel']
+        account = job['account']
+        file_amount = job['file_amount']
+        text = job['text']
 
         file_error_count = 0
-        file_sql = "SELECT * FROM files WHERE status=0 AND channel='{}' AND account='{}' LIMIT {}".format(job["channel"], job["account"], job["file_amount"])
+        file_sql = "SELECT * FROM files WHERE status=0 AND channel='{}' AND account='{}' LIMIT {}".format(channel, account, file_amount)
         cursor.execute(file_sql)
         file_list = cursor.fetchall()
         for file in file_list:
-            # print('file_name', r'Videos/{}/To_{}/{}.mp4'.format(file[1], file[2], file[0]))
+            file_name = file['name']
+            file_path = r'Videos/{}/To_{}/{}.mp4'.format(channel, account, file_name)
             try:
-                video_uploader(job["account"], r'Videos/{}/To_{}/{}.mp4'.format(file["channel"], file["account"], file["id"]), job["text"])
+                if job['channel'] == 'Tiktok':
+                    tiktok_uploader(account=account, file=file_path, text=text)
+                elif job['channel'] == 'YouTube':
+                    youtube_data = {}
+                    for i in [j for j in text.split(';')]:
+                        k = i.split('=')[0]
+                        v = i.split('=')[1]
+                        youtube_data[k] = v
+                    youtube_uploader(
+                        account=account,
+                        file=file_path,
+                        title=youtube_data.get('title', ''),
+                        description=youtube_data.get('description', '')
+                    )
                 file_update_sql = "UPDATE files SET status=1 WHERE id='{}';".format(file["id"])
                 cursor.execute(file_update_sql)
                 conn.commit()
@@ -46,7 +65,7 @@ def get_jobs():
                 conn.commit()
                 # raise e
                 file_error_count -= 1
-                print('file_name', r'Videos/{}/To_{}/{}.mp4'.format(file["channel"], file["account"], file["id"]))
+                print('file_name', r'Videos/{}/To_{}/{}.mp4'.format(channel, account, file["id"]))
                 continue
         if file_error_count != 0:
             sql_update_job = "UPDATE jobs SET status={} WHERE id='{}'".format(file_error_count, job["id"])
