@@ -42,7 +42,7 @@ RETRIABLE_STATUS_CODES = [500, 502, 503, 504]
 #   https://developers.google.com/youtube/v3/guides/authentication
 # For more information about the client_secrets.json file format, see:
 #   https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
-CLIENT_SECRETS_FILE = "./secrets/{}.json"
+CLIENT_SECRETS_FILE = "/home/BingquLee/Project/CrawlerSchedulerFBV/Crawlers/YouTube/secrets/{}.json"
 
 # This OAuth 2.0 access scope allows an application to upload files to the
 # authenticated user's YouTube channel, but doesn't allow other types of access.
@@ -75,7 +75,7 @@ def get_authenticated_service(account, args):
     flow = flow_from_clientsecrets(CLIENT_SECRETS_FILE.format(account),
                                    scope=YOUTUBE_UPLOAD_SCOPE,
                                    message=MISSING_CLIENT_SECRETS_MESSAGE)
-    storage = Storage("./oauths/%s-oauth2.json" % account)
+    storage = Storage("/home/BingquLee/Project/CrawlerSchedulerFBV/Crawlers/YouTube/oauths/%s-oauth2.json" % account)
     credentials = storage.get()
 
     if credentials is None or credentials.invalid:
@@ -192,7 +192,7 @@ def youtube_uploader(account, file, title='Test Title', description='Test Descri
 
 if __name__ == '__main__':
     youtube_uploader(
-        account='BingquLee',
+        account='Games',
         file='1.mp4',
         title='aaa',
         description='bbb',

@@ -17,6 +17,8 @@ def get_jobs():
     sql = "SELECT * FROM jobs WHERE publish_time <= '%s' and status=0 ORDER BY publish_time ASC" % ts2date_min(int(time.time()))
     cursor.execute(sql)
     job_list = cursor.fetchall()
+    if not job_list:
+        return
     job_id_list = [str(i["id"]) for i in job_list]
     sql_update_job_status_temp = """
         UPDATE jobs SET
