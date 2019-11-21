@@ -184,7 +184,10 @@ def youtube_uploader(account, file, title='Test Title', description='Test Descri
     args = argparser.parse_args()
 
     youtube = get_authenticated_service(account, args)
-    print(help(youtube.videos().update))
+    try:
+        initialize_upload(youtube, args)
+    except HttpError as e:
+        print("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
 
 
 if __name__ == '__main__':
