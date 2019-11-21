@@ -7,7 +7,7 @@ from pymysql.cursors import DictCursor
 sys.path.append(r'/home/BingquLee/Project/CrawlerSchedulerFBV')
 
 from Crawlers.Tiktok.TiktokUploader import tiktok_uploader
-from Crawlers.YouTube.upload_video import youtube_uploader
+from Crawlers.YouTube.YoutubeUploader import youtube_uploader
 from global_config import conn
 from global_utils import ts2date_min
 
@@ -45,16 +45,11 @@ def get_jobs():
                 if job['channel'] == 'Tiktok':
                     tiktok_uploader(account=account, file=file_path, text=text)
                 elif job['channel'] == 'YouTube':
-                    youtube_data = {}
-                    for i in [j for j in text.split(';')]:
-                        k = i.split('=')[0]
-                        v = i.split('=')[1]
-                        youtube_data[k] = v
                     youtube_uploader(
                         account=account,
                         file=file_path,
-                        title=youtube_data.get('title', ''),
-                        description=youtube_data.get('description', '')
+                        title=file_name,
+                        description=account
                     )
                 file_update_sql = "UPDATE files SET status=1 WHERE id='{}';".format(file["id"])
                 cursor.execute(file_update_sql)
