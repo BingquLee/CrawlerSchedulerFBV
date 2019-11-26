@@ -2,6 +2,10 @@
 import time
 import os
 
+from pymysql.cursors import DictCursor
+
+from global_config import proxies_conn
+
 
 def ts2datetime(ts):
     return time.strftime('%Y-%m-%d', time.localtime(ts))
@@ -29,3 +33,12 @@ def read_files(direction='.'):
             file_list.append(os.path.join(file_path, f))
             pass
     return file_list
+
+
+def get_proxy(country):
+    cursor = proxies_conn.cursor(DictCursor)
+    sql = "SELECT * FROM {} ORDER BY score DESC LIMIT 1,1".format(country)
+    cursor.execute(sql)
+    proxy = cursor.fetchall()[0]
+    print(proxy)
+    return proxy
