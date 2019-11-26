@@ -185,14 +185,15 @@ def youtube_uploader(account, file, title='Test Title', description='Test Descri
 
     youtube = get_authenticated_service(account, args)
     try:
-        initialize_upload(youtube, args)
+        #initialize_upload(youtube, args)
+        pass
     except HttpError as e:
         print("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
 
 
 if __name__ == '__main__':
     youtube_uploader(
-        account='Games',
+        account='Agriculture',
         file='1.mp4',
         title='aaa',
         description='bbb',
