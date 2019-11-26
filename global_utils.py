@@ -42,3 +42,7 @@ def get_proxy(country):
     proxy = cursor.fetchall()[0]
     print(proxy)
     return proxy
+
+
+if __name__ == '__main__':
+    get_proxy('US')

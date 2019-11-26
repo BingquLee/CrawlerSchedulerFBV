@@ -8,13 +8,15 @@ import random
 
 from Crawlers.Tiktok.Utils import get_tag, get_sessionid_by_account
 from Crawlers.Tiktok.config import ACCOUNT_TO_SID
+from global_utils import get_proxy
 
 
 def tiktok_uploader(account, file, text=''):
     url1 = "https://api21-h2.tiktokv.com/aweme/v1/upload/authkey/?manifest_version_code=735&_rticket=1571024543641&app_language=en&current_region=US&app_type=normal&iid=6747216327653476097&channel=googleplay&device_type=J9110&language=en&locale=en&account_region=US&resolution=1096*2434&openudid=9ed5ff1a4b62cbc2&update_version_code=7350&sys_region=US&os_api=28&uoo=0&is_my_cn=1&timezone_name=America%2FNew_York&dpi=420&residence=US&ac=wifi&device_id=6747214369112163842&pass-route=1&os_version=9&timezone_offset=-18000&version_code=735&app_name=trill&ab_version=7.3.5&version_name=7.3.5&device_brand=Sony&ssmix=a&pass-region=1&device_platform=android&build_number=7.3.5&region=CN&aid=1180&ts={}".format(str(int(time.time())))
     session = requests.Session()
+    proxy = get_proxy('US')
     session.proxies = {
-        'https': "206.189.37.244:8080"
+        proxy['protocol']: "{}:{}".format(proxy['host'], proxy['port'])
     }
     session.cookies.set("sessionid", get_sessionid_by_account(account, "Tiktok"))
     session.headers = {
