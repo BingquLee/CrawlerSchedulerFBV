@@ -43,10 +43,12 @@ def get_jobs():
         for file in file_list:
             file_name = file['name']
             file_path = r'Videos/{}/To_{}/{}.mp4'.format(channel, account, file_name)
+            #print(file_path)
             try:
                 if job['channel'] == 'Tiktok':
                     tiktok_uploader(account=account, file=file_path, text=text)
                 elif job['channel'] == 'YouTube':
+                    print(file_path)
                     youtube_uploader(
                         account=account,
                         file=file_path,

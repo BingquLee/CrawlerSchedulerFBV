@@ -160,32 +160,22 @@ def resumable_upload(insert_request):
 
 
 def youtube_uploader(account, file, title='Test Title', description='Test Description', category='22', keywords='', privacy_status=VALID_PRIVACY_STATUSES[0]):
-    args_dict = {
-        "file": file,
-        "title": title,
-        "description": description,
-        "category": category,
-        "keywords": keywords,
-        "privacyStatus": privacy_status,
-        "auth_host_name": "localhost",
-        "noauth_local_webserver": "true",
-        "auth_host_port": [
-            8080,
-            8090
-        ],
-        "logging_level": "ERROR"
-    }
-    for k, v in args_dict.items():
-        try:
-            argparser.add_argument("--{}".format(k), default=v)
-        except Exception as e:
-            pass
+    
+    argparser.set_defaults(file=file)
     argparser.set_defaults(noauth_local_webserver="true")
+    argparser.set_defaults(title=title)
+    argparser.set_defaults(description=description)
+    argparser.set_defaults(category=category)
+    argparser.set_defaults(keywords=keywords)
+    argparser.set_defaults(privacyStatus=privacy_status)
+    argparser.set_defaults(auth_host_name="localhost")
+    argparser.set_defaults(auth_host_port=[8080, 8090])
+    argparser.set_defaults(logging_level="ERROR")
     args = argparser.parse_args()
 
     youtube = get_authenticated_service(account, args)
     try:
-        #initialize_upload(youtube, args)
+        initialize_upload(youtube, args)
         pass
     except HttpError as e:
         print("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
@@ -193,7 +183,7 @@ def youtube_uploader(account, file, title='Test Title', description='Test Descri
 
 if __name__ == '__main__':
     youtube_uploader(
-        account='Agriculture',
+        account='Renren',
         file='1.mp4',
         title='aaa',
         description='bbb',

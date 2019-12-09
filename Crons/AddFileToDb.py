@@ -15,6 +15,7 @@ def add_file_to_db():
     sql = "SELECT * FROM files"
 
     video_list = read_files(r'Videos')
+    print(video_list)
     file_video_name_set = set(video_list)
     cursor.execute(sql)
     db_video_name_set = set(["Videos/{}/To_{}/{}.mp4".format(i["channel"], i["account"], i["name"]) for i in cursor.fetchall()])
